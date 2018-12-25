@@ -32,9 +32,10 @@ public class FormHandler {
     private HubSpotService hubSpotService;
 
     /**
+     * Submit a generic form to HubSpot.
      *
-     * @param request
-     * @return
+     * @param request http request
+     * @return http response
      */
     public Mono<ServerResponse> formSubmit(ServerRequest request) {
         return null;
