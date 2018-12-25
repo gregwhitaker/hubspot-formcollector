@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HubSpotFormService {
-    private static final Logger LOG = LoggerFactory.getLogger(HubSpotFormService.class);
+public class HubSpotService {
+    private static final Logger LOG = LoggerFactory.getLogger(HubSpotService.class);
     
 }
