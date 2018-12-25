@@ -19,7 +19,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+/**
+ * Service responsible for submitting forms to HubSpot.
+ */
 @Service
 public class HubSpotService {
     private static final Logger LOG = LoggerFactory.getLogger(HubSpotService.class);
@@ -32,4 +36,14 @@ public class HubSpotService {
 
     @Value("${hubspot.formId}")
     private String formId;
+
+    private final WebClient client;
+
+    public HubSpotService() {
+        final String url = "https://forms.hubspot.com/uploads/form/v2/" + accountId + "/" + formId;
+
+        this.client = WebClient.builder()
+                .baseUrl(url)
+                .build();
+    }
 }
