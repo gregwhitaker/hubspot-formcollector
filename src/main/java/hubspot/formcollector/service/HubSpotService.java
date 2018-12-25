@@ -24,6 +24,12 @@ import org.springframework.stereotype.Service;
 public class HubSpotService {
     private static final Logger LOG = LoggerFactory.getLogger(HubSpotService.class);
 
-    @Value("${hubspot.apikey}")
-    private String token;
+    @Value("${hubspot.accountId}")
+    private String accountId;
+
+    @Value("${hubspot.apiKey}")
+    private String apiKey;
+
+    @Value("${hubspot.formId}")
+    private String formId;
 }
