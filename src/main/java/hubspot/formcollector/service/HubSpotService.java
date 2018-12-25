@@ -17,9 +17,11 @@ package hubspot.formcollector.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 /**
  * Service responsible for submitting forms to HubSpot.
@@ -28,22 +30,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class HubSpotService {
     private static final Logger LOG = LoggerFactory.getLogger(HubSpotService.class);
 
-    @Value("${hubspot.accountId}")
-    private String accountId;
-
     @Value("${hubspot.apiKey}")
     private String apiKey;
 
-    @Value("${hubspot.formId}")
-    private String formId;
+    @Autowired
+    private WebClient client;
 
-    private final WebClient client;
-
-    public HubSpotService() {
-        final String url = "https://forms.hubspot.com/uploads/form/v2/" + accountId + "/" + formId;
-
-        this.client = WebClient.builder()
-                .baseUrl(url)
-                .build();
+    public Mono<Void> submitForm() {
+        return null;
     }
 }

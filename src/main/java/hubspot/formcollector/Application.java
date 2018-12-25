@@ -16,6 +16,7 @@
 package hubspot.formcollector;
 
 import hubspot.formcollector.handler.FormHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +27,17 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+/**
+ * Starts the hubspot-formcollector application.
+ */
 @SpringBootApplication
 public class Application {
+
+    @Value("${hubspot.accountId}")
+    private String accountId;
+
+    @Value("${hubspot.formId}")
+    private String formId;
 
     public static void main(String... args) {
         SpringApplication.run(Application.class, args);
@@ -37,5 +47,12 @@ public class Application {
     public RouterFunction<ServerResponse> formRouter(FormHandler handler) {
         return RouterFunctions.route(RequestPredicates.POST("*")
                 .and(RequestPredicates.accept(MediaType.APPLICATION_FORM_URLENCODED)), handler::formSubmit);
+    }
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+                .baseUrl(String.format("https://forms.hubspot.com/uploads/form/v2/%s/%s", accountId, formId))
+                .build();
     }
 }
