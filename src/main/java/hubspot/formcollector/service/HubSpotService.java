@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 /**
  * Service responsible for submitting forms to HubSpot.
  */
@@ -36,7 +38,7 @@ public class HubSpotService {
     @Autowired
     private WebClient client;
 
-    public Mono<Void> submitForm() {
+    public Mono<Void> submitForm(Map<String, Object> data) {
         return null;
     }
 }
