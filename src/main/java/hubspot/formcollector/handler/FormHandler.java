@@ -15,8 +15,10 @@
  */
 package hubspot.formcollector.handler;
 
+import hubspot.formcollector.service.HubSpotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -25,6 +27,9 @@ import reactor.core.publisher.Mono;
 @Component
 public class FormHandler {
     private static final Logger LOG = LoggerFactory.getLogger(FormHandler.class);
+
+    @Autowired
+    private HubSpotService hubSpotService;
 
     public Mono<ServerResponse> formSubmit(ServerRequest request) {
         return null;
