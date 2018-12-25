@@ -1,5 +1,5 @@
 # hubspot-formcollector
-Webservice for collecting generic form submissions and uploading them to Hubspot.
+Service for collecting generic form submissions and uploading them to [HubSpot](https://www.hubspot.com).
 
 ## License
 Copyright 2018 Greg Whitaker
