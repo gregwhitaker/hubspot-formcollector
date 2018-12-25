@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +39,7 @@ public class HubSpotService {
     @Autowired
     private WebClient client;
 
-    public Mono<Void> submitForm(Map<String, Object> data) {
+    public Mono<Void> submitForm(Map<String, String> trackingData, MultiValueMap<String, String> data) {
         return null;
     }
 }

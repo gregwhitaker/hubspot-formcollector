@@ -19,10 +19,17 @@ import hubspot.formcollector.service.HubSpotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuples;
+
+import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class FormHandler {
@@ -38,6 +45,23 @@ public class FormHandler {
      * @return http response
      */
     public Mono<ServerResponse> formSubmit(ServerRequest request) {
-        return null;
+        return request.formData()
+                .map(fields -> {
+                    final HttpCookie trackingCode = request.cookies().getFirst("hubspotutk");
+                    final Optional<String> pageName = request.queryParam("pageName");
+                    final Optional<InetSocketAddress> ipAddress = request.remoteAddress();
+                    final Map<String, String> trackingData = new HashMap<>();
+
+                    if (trackingCode != null) {
+                        trackingData.put("trackingCode", trackingCode.getValue());
+                    }
+
+                    pageName.ifPresent(s -> trackingData.put("pageName", s));
+                    ipAddress.ifPresent(a -> trackingData.put("ipAddress", a.toString()));
+
+                    return Tuples.of(trackingData, fields);
+                })
+                .map(t -> hubSpotService.submitForm(t.getT1(), t.getT2()))
+                .then(ServerResponse.ok().build());
     }
 }
