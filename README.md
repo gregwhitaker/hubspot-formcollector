@@ -1,4 +1,6 @@
 # hubspot-formcollector
+[![Build Status](https://travis-ci.org/gregwhitaker/hubspot-formcollector.svg?branch=master)](https://travis-ci.org/gregwhitaker/hubspot-formcollector)
+
 Service for collecting generic form submissions and uploading them to [HubSpot](https://www.hubspot.com).
 
 ## Bugs and Feedback
