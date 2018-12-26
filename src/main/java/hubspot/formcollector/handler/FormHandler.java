@@ -61,7 +61,7 @@ public class FormHandler {
 
                     return Tuples.of(trackingData, fields);
                 })
-                .map(t -> hubSpotService.submitForm(t.getT1(), t.getT2()))
-                .then(ServerResponse.ok().build());
+                .flatMap(t -> hubSpotService.submitForm(t.getT1(), t.getT2()))
+                .flatMap(aVoid -> ServerResponse.ok().build());
     }
 }

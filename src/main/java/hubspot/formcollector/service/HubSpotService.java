@@ -58,6 +58,7 @@ public class HubSpotService {
      */
     public Mono<Void> submitForm(Map<String, String> trackingData, MultiValueMap<String, String> data) {
         data.add("hs_context", hsContext(trackingData));
+        data.add("hs_lead_status", "NEW");
 
         return client.post()
                 .uri("/uploads/form/v2/{portalId}/{formId}", portalId, formId)
