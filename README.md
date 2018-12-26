@@ -1,6 +1,9 @@
 # hubspot-formcollector
 Service for collecting generic form submissions and uploading them to [HubSpot](https://www.hubspot.com).
 
+## Bugs and Feedback
+For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/hubspot-formcollector/issues).
+
 ## License
 Copyright 2018 Greg Whitaker
 
