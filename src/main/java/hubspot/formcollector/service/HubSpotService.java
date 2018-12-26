@@ -50,10 +50,11 @@ public class HubSpotService {
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
+     * Submits the form data to HubSpot.
      *
-     * @param trackingData
-     * @param data
-     * @return
+     * @param trackingData HubSpot tracking cookie data
+     * @param data form data to submit
+     * @return an empty {@link Mono}
      */
     public Mono<Void> submitForm(Map<String, String> trackingData, MultiValueMap<String, String> data) {
         data.add("hs_context", hsContext(trackingData));
@@ -67,9 +68,10 @@ public class HubSpotService {
     }
 
     /**
-     * 
-     * @param trackingData
-     * @return
+     * Creates the HubSpot context data sent in the "hs_context" form value.
+     *
+     * @param trackingData HubSpot tracking cookie data
+     * @return data sent in the "hs_context" form value
      */
     private String hsContext(Map<String, String> trackingData) {
         Map<String, String> data = new HashMap<>();
