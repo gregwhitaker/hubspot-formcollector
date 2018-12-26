@@ -33,12 +33,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @SpringBootApplication
 public class Application {
 
-    @Value("${hubspot.portalId}")
-    private String portalId;
-
-    @Value("${hubspot.formId}")
-    private String formId;
-
     public static void main(String... args) {
         SpringApplication.run(Application.class, args);
     }
@@ -50,9 +44,9 @@ public class Application {
     }
 
     @Bean
-    public WebClient webClient() {
+    public WebClient hubspotClient() {
         return WebClient.builder()
-                .baseUrl(String.format("https://forms.hubspot.com/uploads/form/v2/%s/%s", portalId, formId))
+                .baseUrl("https://forms.hubspot.com/")
                 .build();
     }
 }

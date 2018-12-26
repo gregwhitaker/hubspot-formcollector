@@ -15,15 +15,20 @@
  */
 package hubspot.formcollector.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,13 +38,50 @@ import java.util.Map;
 public class HubSpotService {
     private static final Logger LOG = LoggerFactory.getLogger(HubSpotService.class);
 
-    @Value("${hubspot.apiKey}")
-    private String apiKey;
+    @Value("${hubspot.portalId}")
+    private String portalId;
+
+    @Value("${hubspot.formId}")
+    private String formId;
 
     @Autowired
     private WebClient client;
 
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     *
+     * @param trackingData
+     * @param data
+     * @return
+     */
     public Mono<Void> submitForm(Map<String, String> trackingData, MultiValueMap<String, String> data) {
-        return null;
+        data.add("hs_context", hsContext(trackingData));
+
+        return client.post()
+                .uri("/uploads/form/v2/{portalId}/{formId}", portalId, formId)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.fromFormData(data))
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
+    /**
+     * 
+     * @param trackingData
+     * @return
+     */
+    private String hsContext(Map<String, String> trackingData) {
+        Map<String, String> data = new HashMap<>();
+        data.put("hutk", trackingData.get("trackingCode"));
+        data.put("ipAddress", trackingData.get("ipAddress"));
+        data.put("pageName", trackingData.get("pageName"));
+
+        try {
+            return mapper.writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            LOG.error("Unable to process tracking data", e);
+            return null;
+        }
     }
 }
